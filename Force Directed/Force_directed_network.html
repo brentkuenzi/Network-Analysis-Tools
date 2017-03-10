@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body {
+  overflow:hidden;
+   margin:0;
+}
+
+text {
+  font-family: sans-serif;
+  pointer-events: none;
+}
+
+</style>
+<h1>Force Directed Network</h1>
+<p> This is a simple force directed network diagram. Colors represents the community of each node. For questions, please contact Brent Kuenzi (brentkuenzi@gmail.com). To save, print page as .pdf or postscript and ungroup in Illustrator/Inkscape. NOTE: make sure the network is toward the left hand side of the display box when exporting or it may be cut off. This diagram was adapted from Mike Bostock's examples (https://bost.ocks.org/mike/)<p>
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+jsondata='{"nodes":  [{"id":"ACTN1", "size":0.34969526917, "score":1,"type":"circle"},{"id":"BCAR1", "size":0.562716625551, "score":1,"type":"circle"},{"id":"IRS2", "size":0.542333134631, "score":2,"type":"circle"},{"id":"RHOA", "size":0.942885855803, "score":1,"type":"circle"},{"id":"MTOR", "size":0.80782704469, "score":2,"type":"circle"},{"id":"EGFR", "size":0.893559062381, "score":3,"type":"circle"},{"id":"CTNND1", "size":0.420226110237, "score":1,"type":"circle"},{"id":"RICTOR", "size":0.595202513801, "score":2,"type":"circle"},{"id":"MAP2K1", "size":0.503086779142, "score":3,"type":"circle"},{"id":"RPS6KA1", "size":0.549241734112, "score":2,"type":"circle"},{"id":"AKT1", "size":0.932556209663, "score":2,"type":"circle"},{"id":"GSK3B", "size":0.710726667512, "score":2,"type":"circle"},{"id":"IRS1", "size":0.848680105964, "score":2,"type":"circle"},{"id":"PDPK1", "size":0.614506566861, "score":2,"type":"circle"},{"id":"RPS6KA3", "size":0.595347809676, "score":2,"type":"circle"},{"id":"MAPK3", "size":0.754527297861, "score":2,"type":"circle"},{"id":"MAP2K2", "size":0.436110310125, "score":3,"type":"circle"},{"id":"RPS6", "size":0.570156577125, "score":2,"type":"circle"},{"id":"PRKAA1", "size":0.354034571128, "score":2,"type":"circle"},{"id":"CTNNA1", "size":0.311877004795, "score":1,"type":"circle"},{"id":"PIK3CA", "size":1.0, "score":1,"type":"circle"},{"id":"TLN1", "size":0.41348439665, "score":1,"type":"circle"},{"id":"CRKL", "size":0.474115028945, "score":1,"type":"circle"},{"id":"PAK1", "size":0.500272175963, "score":3,"type":"circle"},{"id":"PTK2", "size":0.651090240725, "score":1,"type":"circle"},{"id":"YES1", "size":0.71278394222, "score":3,"type":"circle"},{"id":"YBX1", "size":0.245959988079, "score":2,"type":"circle"},{"id":"INSR", "size":0.668781240184, "score":2,"type":"circle"},{"id":"MLLT4", "size":0.151620413017, "score":1,"type":"circle"},{"id":"MET", "size":0.564623735618, "score":1,"type":"circle"},{"id":"PRKAR2A", "size":0.415307513505, "score":2,"type":"circle"},{"id":"PTPRF", "size":0.191293439763, "score":2,"type":"circle"},{"id":"MAP3K7", "size":0.117880575733, "score":2,"type":"circle"},{"id":"WASL", "size":0.341016826071, "score":1,"type":"circle"},{"id":"KRAS", "size":0.890229864351, "score":3,"type":"circle"},{"id":"PAK4", "size":0.418919605097, "score":3,"type":"circle"},{"id":"CALM1", "size":0.143291110376, "score":3,"type":"circle"},{"id":"FER", "size":0.181192910686, "score":3,"type":"circle"},{"id":"PARD3", "size":0.0988808203256, "score":1,"type":"circle"},{"id":"ACACA", "size":0.220961653516, "score":2,"type":"circle"},{"id":"FLOT1", "size":0.0387793432931, "score":3,"type":"circle"},{"id":"PPP1R12A", "size":0.145636922221, "score":1,"type":"circle"},{"id":"PTPRM", "size":0.0465893829149, "score":3,"type":"circle"},{"id":"MAPK1", "size":0.839437490786, "score":2,"type":"circle"},{"id":"VCL", "size":0.451742951051, "score":1,"type":"circle"},{"id":"EIF4B", "size":0.2645455537, "score":2,"type":"circle"}], "links":  [{"source":0,"target":19},{"source":1,"target":22},{"source":1,"target":24},{"source":2,"target":27},{"source":3,"target":10},{"source":3,"target":41},{"source":4,"target":10},{"source":5,"target":34},{"source":6,"target":5},{"source":4,"target":7},{"source":7,"target":10},{"source":8,"target":15},{"source":9,"target":43},{"source":10,"target":20},{"source":11,"target":10},{"source":12,"target":27},{"source":13,"target":10},{"source":14,"target":43},{"source":8,"target":43},{"source":12,"target":20},{"source":4,"target":12},{"source":15,"target":16},{"source":16,"target":43},{"source":3,"target":6},{"source":17,"target":14},{"source":18,"target":39},{"source":19,"target":44},{"source":20,"target":34},{"source":2,"target":20},{"source":3,"target":1},{"source":21,"target":44},{"source":14,"target":15},{"source":22,"target":24},{"source":12,"target":10},{"source":23,"target":10},{"source":6,"target":19},{"source":17,"target":4},{"source":14,"target":13},{"source":0,"target":44},{"source":24,"target":44},{"source":24,"target":25},{"source":17,"target":45},{"source":15,"target":43},{"source":9,"target":17},{"source":6,"target":37},{"source":24,"target":21},{"source":4,"target":13},{"source":17,"target":10},{"source":24,"target":33},{"source":3,"target":23},{"source":1,"target":44},{"source":5,"target":20},{"source":22,"target":5},{"source":9,"target":15},{"source":19,"target":5},{"source":4,"target":5},{"source":25,"target":5},{"source":9,"target":13},{"source":9,"target":14},{"source":3,"target":44},{"source":4,"target":18},{"source":8,"target":34},{"source":3,"target":24},{"source":13,"target":20},{"source":3,"target":38},{"source":5,"target":43},{"source":3,"target":15},{"source":26,"target":10},{"source":3,"target":25},{"source":9,"target":4},{"source":24,"target":5},{"source":27,"target":20},{"source":6,"target":25},{"source":25,"target":20},{"source":3,"target":43},{"source":7,"target":13},{"source":28,"target":19},{"source":16,"target":34},{"source":6,"target":42},{"source":24,"target":20},{"source":8,"target":20},{"source":29,"target":5},{"source":1,"target":25},{"source":12,"target":43},{"source":3,"target":5},{"source":8,"target":23},{"source":6,"target":44},{"source":2,"target":10},{"source":2,"target":12},{"source":3,"target":20},{"source":28,"target":34},{"source":0,"target":24},{"source":25,"target":34},{"source":11,"target":12},{"source":20,"target":16},{"source":8,"target":16},{"source":29,"target":20},{"source":0,"target":21},{"source":3,"target":4},{"source":24,"target":12},{"source":25,"target":44},{"source":30,"target":43},{"source":4,"target":20},{"source":9,"target":45},{"source":12,"target":15},{"source":3,"target":29},{"source":1,"target":21},{"source":27,"target":10},{"source":3,"target":19},{"source":22,"target":44},{"source":12,"target":5},{"source":1,"target":12},{"source":22,"target":20},{"source":22,"target":27},{"source":14,"target":4},{"source":13,"target":27},{"source":12,"target":34},{"source":22,"target":29},{"source":3,"target":12},{"source":9,"target":26},{"source":24,"target":34},{"source":6,"target":29},{"source":14,"target":26},{"source":3,"target":21},{"source":31,"target":27},{"source":1,"target":29},{"source":22,"target":12},{"source":13,"target":11},{"source":32,"target":8},{"source":29,"target":15},{"source":25,"target":43},{"source":7,"target":11},{"source":33,"target":44},{"source":2,"target":15},{"source":25,"target":10},{"source":29,"target":43},{"source":1,"target":20},{"source":6,"target":0},{"source":11,"target":20},{"source":2,"target":4},{"source":3,"target":0},{"source":34,"target":43},{"source":21,"target":10},{"source":32,"target":18},{"source":20,"target":44},{"source":2,"target":34},{"source":3,"target":30},{"source":13,"target":43},{"source":35,"target":23},{"source":29,"target":33},{"source":22,"target":21},{"source":19,"target":37},{"source":35,"target":29},{"source":28,"target":25},{"source":32,"target":13},{"source":0,"target":25},{"source":13,"target":25},{"source":31,"target":12},{"source":6,"target":20},{"source":0,"target":20},{"source":2,"target":31},{"source":35,"target":25},{"source":21,"target":20},{"source":25,"target":23},{"source":29,"target":19},{"source":24,"target":23},{"source":3,"target":2},{"source":35,"target":24},{"source":19,"target":20},{"source":1,"target":0},{"source":0,"target":22},{"source":32,"target":22},{"source":21,"target":30},{"source":13,"target":21},{"source":24,"target":30},{"source":6,"target":28},{"source":11,"target":30},{"source":36,"target":5},{"source":13,"target":12},{"source":29,"target":12},{"source":14,"target":45},{"source":26,"target":5},{"source":9,"target":7},{"source":23,"target":16},{"source":35,"target":8},{"source":10,"target":34},{"source":14,"target":7},{"source":1,"target":4},{"source":4,"target":34},{"source":17,"target":7},{"source":24,"target":29},{"source":36,"target":34},{"source":1,"target":5},{"source":37,"target":5},{"source":25,"target":37},{"source":9,"target":20},{"source":11,"target":34},{"source":23,"target":45},{"source":15,"target":34},{"source":14,"target":20},{"source":38,"target":19},{"source":22,"target":43},{"source":4,"target":27},{"source":13,"target":34},{"source":8,"target":5},{"source":7,"target":20},{"source":23,"target":5},{"source":23,"target":43},{"source":18,"target":30},{"source":3,"target":35},{"source":9,"target":11},{"source":4,"target":15},{"source":2,"target":11},{"source":4,"target":43},{"source":2,"target":5},{"source":10,"target":44},{"source":3,"target":33},{"source":1,"target":10},{"source":4,"target":11},{"source":27,"target":15},{"source":13,"target":23},{"source":0,"target":41},{"source":11,"target":43},{"source":24,"target":11},{"source":27,"target":43},{"source":21,"target":19},{"source":29,"target":34},{"source":10,"target":30},{"source":9,"target":30},{"source":14,"target":30},{"source":20,"target":43},{"source":5,"target":33},{"source":6,"target":11},{"source":24,"target":27},{"source":3,"target":8},{"source":7,"target":12},{"source":4,"target":29},{"source":26,"target":43},{"source":2,"target":13},{"source":4,"target":45},{"source":5,"target":10},{"source":31,"target":5},{"source":36,"target":27},{"source":17,"target":12},{"source":10,"target":33},{"source":39,"target":27},{"source":1,"target":31},{"source":14,"target":34},{"source":9,"target":34},{"source":35,"target":34},{"source":26,"target":11},{"source":20,"target":15},{"source":18,"target":20},{"source":23,"target":34},{"source":22,"target":10},{"source":17,"target":27},{"source":12,"target":37},{"source":5,"target":16},{"source":17,"target":13},{"source":4,"target":8},{"source":17,"target":20},{"source":7,"target":34},{"source":25,"target":12},{"source":36,"target":37},{"source":39,"target":10},{"source":39,"target":29},{"source":19,"target":45},{"source":6,"target":22},{"source":3,"target":16},{"source":10,"target":41},{"source":5,"target":44},{"source":30,"target":15},{"source":9,"target":3},{"source":7,"target":27},{"source":5,"target":15},{"source":14,"target":12},{"source":11,"target":27},{"source":3,"target":14},{"source":39,"target":11},{"source":4,"target":24},{"source":17,"target":5},{"source":8,"target":10},{"source":3,"target":11},{"source":39,"target":25},{"source":1,"target":33},{"source":10,"target":15},{"source":10,"target":45},{"source":30,"target":34},{"source":27,"target":34},{"source":28,"target":44},{"source":6,"target":10},{"source":11,"target":25},{"source":10,"target":43},{"source":32,"target":39},{"source":17,"target":18},{"source":40,"target":25},{"source":9,"target":12},{"source":18,"target":10},{"source":7,"target":43},{"source":17,"target":11},{"source":14,"target":5},{"source":1,"target":27},{"source":25,"target":8},{"source":25,"target":16},{"source":3,"target":27},{"source":10,"target":16},{"source":7,"target":15},{"source":1,"target":38},{"source":2,"target":25},{"source":21,"target":5},{"source":23,"target":15},{"source":23,"target":33},{"source":17,"target":15},{"source":35,"target":33},{"source":18,"target":15},{"source":35,"target":43},{"source":35,"target":15},{"source":18,"target":43},{"source":14,"target":11},{"source":35,"target":20},{"source":7,"target":5},{"source":41,"target":44},{"source":7,"target":45},{"source":0,"target":33},{"source":17,"target":34},{"source":3,"target":34},{"source":42,"target":16},{"source":18,"target":12}]}'
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+var keyc = true, keys = true, keyt = true, keyr = true, keyx = true, keyd = true, keyl = true, keym = true, keyh = true, key1 = true, key2 = true, key3 = true, key0 = true
+
+var focus_node = null, highlight_node = null;
+
+var text_center = false;
+var outline = false;
+
+var min_score = 0;
+var max_score = 1;
+
+var color = d3.scale.category20()
+  .range(["green", "orange", "red","black","steelblue","purple","gray","blue","yellow","lime"]);
+
+var highlight_color = "red";
+var highlight_trans = 0.1;
+  
+var size = d3.scale.pow().exponent(1)
+  .domain([1,100])
+  .range([8,24]);
+	
+var force = d3.layout.force()
+  .linkDistance(60)
+  .charge(-300)
+  .size([w,h]);
+
+var default_node_color = "#000";
+//var default_node_color = "rgb(3,190,100)";
+var default_link_color = "#888";
+var nominal_base_node_size = 8;
+var nominal_text_size = 10;
+var max_text_size = 24;
+var nominal_stroke = 1.5;
+var max_stroke = 4.5;
+var max_base_node_size = 36;
+var min_zoom = 0.1;
+var max_zoom = 7;
+var svg = d3.select("body").append("svg");
+var zoom = d3.behavior.zoom().scaleExtent([min_zoom,max_zoom])
+var g = svg.append("g");
+svg.style("cursor","move");
+
+var data = JSON.parse(jsondata);
+function plot_graph(graph) {
+
+var linkedByIndex = {};
+    graph.links.forEach(function(d) {
+	linkedByIndex[d.source + "," + d.target] = true;
+    });
+
+	function isConnected(a, b) {
+        return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+    }
+
+	function hasConnections(a) {
+		for (var property in linkedByIndex) {
+				s = property.split(",");
+				if ((s[0] == a.index || s[1] == a.index) && linkedByIndex[property]) 					return true;
+		}
+	return false;
+	}
+	
+  force
+    .nodes(graph.nodes)
+    .links(graph.links)
+    .start();
+
+  var link = g.selectAll(".link")
+    .data(graph.links)
+    .enter().append("line")
+    .attr("class", "link")
+	.style("stroke-width",nominal_stroke)
+	.style("stroke", function(d) { 
+	if (isNumber(d.score) && d.score>=0) return color(d.score);
+	else return default_link_color; })
+
+
+  var node = g.selectAll(".node")
+    .data(graph.nodes)
+    .enter().append("g")
+    .attr("class", "node")
+	
+    .call(force.drag)
+
+	
+	node.on("dblclick.zoom", function(d) { d3.event.stopPropagation();
+	var dcx = (window.innerWidth/2-d.x*zoom.scale());
+	var dcy = (window.innerHeight/2-d.y*zoom.scale());
+	zoom.translate([dcx,dcy]);
+	 g.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + zoom.scale() + ")");
+	 
+	 
+	});
+	
+
+
+	
+	var tocolor = "fill";
+	var towhite = "stroke";
+	if (outline) {
+		tocolor = "stroke"
+		towhite = "fill"
+	}
+		
+	
+	
+  var circle = node.append("path")
+  
+  
+      .attr("d", d3.svg.symbol()
+        .size(function(d) { return Math.PI*Math.pow(size(d.size)||nominal_base_node_size,2); })
+        .type(function(d) { return d.type; }))
+  
+	.style(tocolor, function(d) { 
+	if (isNumber(d.score) && d.score>=0) return color(d.score);
+	else return default_node_color; })
+    //.attr("r", function(d) { return size(d.size)||nominal_base_node_size; })
+	.style("stroke-width", nominal_stroke)
+	.style(towhite, "white");
+  	
+				
+  var text = g.selectAll(".text")
+    .data(graph.nodes)
+    .enter().append("text")
+    .attr("dy", ".35em")
+	.style("font-size", nominal_text_size + "px")
+
+	if (text_center)
+	 text.text(function(d) { return d.id; })
+	.style("text-anchor", "middle");
+	else 
+	text.attr("dx", function(d) {return (size(d.size)||nominal_base_node_size);})
+    .text(function(d) { return '\u2002'+d.id; });
+
+	node.on("mouseover", function(d) {
+	set_highlight(d);
+	})
+  .on("mousedown", function(d) { d3.event.stopPropagation();
+  	focus_node = d;
+	set_focus(d)
+	if (highlight_node === null) set_highlight(d)
+	
+}	).on("mouseout", function(d) {
+		exit_highlight();
+
+}	);
+
+		d3.select(window).on("mouseup",  
+		function() {
+		if (focus_node!==null)
+		{
+			focus_node = null;
+			if (highlight_trans<1)
+			{
+	
+		circle.style("opacity", 1);
+	  text.style("opacity", 1);
+	  link.style("opacity", 1);
+	}
+		}
+	
+	if (highlight_node === null) exit_highlight();
+		});
+
+function exit_highlight()
+{
+		highlight_node = null;
+	if (focus_node===null)
+	{
+		svg.style("cursor","move");
+		if (highlight_color!="white")
+	{
+  	  circle.style(towhite, "white");
+	  text.style("font-weight", "normal");
+	  link.style("stroke", function(o) {return (isNumber(o.score) && o.score>=0)?color(o.score):default_link_color});
+ }
+			
+	}
+}
+
+function set_focus(d)
+{	
+if (highlight_trans<1)  {
+    circle.style("opacity", function(o) {
+                return isConnected(d, o) ? 1 : highlight_trans;
+            });
+
+			text.style("opacity", function(o) {
+                return isConnected(d, o) ? 1 : highlight_trans;
+            });
+			
+            link.style("opacity", function(o) {
+                return o.source.index == d.index || o.target.index == d.index ? 1 : highlight_trans;
+            });		
+	}
+}
+
+
+function set_highlight(d)
+{
+	svg.style("cursor","pointer");
+	if (focus_node!==null) d = focus_node;
+	highlight_node = d;
+
+	if (highlight_color!="white")
+	{
+		  circle.style(towhite, function(o) {
+                return isConnected(d, o) ? highlight_color : "white";});
+			text.style("font-weight", function(o) {
+                return isConnected(d, o) ? "bold" : "normal";});
+            link.style("stroke", function(o) {
+		      return o.source.index == d.index || o.target.index == d.index ? highlight_color : ((isNumber(o.score) && o.score>=0)?color(o.score):default_link_color);
+
+            });
+	}
+}
+ 	
+ 	
+  zoom.on("zoom", function() {
+  
+    var stroke = nominal_stroke;
+    if (nominal_stroke*zoom.scale()>max_stroke) stroke = max_stroke/zoom.scale();
+    link.style("stroke-width",stroke);
+    circle.style("stroke-width",stroke);
+	   
+	var base_radius = nominal_base_node_size;
+    if (nominal_base_node_size*zoom.scale()>max_base_node_size) base_radius = max_base_node_size/zoom.scale();
+        circle.attr("d", d3.svg.symbol()
+        .size(function(d) { return Math.PI*Math.pow(size(d.size)*base_radius/nominal_base_node_size||base_radius,2); })
+        .type(function(d) { return d.type; }))
+		
+	//circle.attr("r", function(d) { return (size(d.size)*base_radius/nominal_base_node_size||base_radius); })
+	if (!text_center) text.attr("dx", function(d) { return (size(d.size)*base_radius/nominal_base_node_size||base_radius); });
+	
+	var text_size = nominal_text_size;
+    if (nominal_text_size*zoom.scale()>max_text_size) text_size = max_text_size/zoom.scale();
+    text.style("font-size",text_size + "px");
+
+	g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	});
+	 
+  svg.call(zoom);	  
+	
+  resize();
+  //window.focus();
+  d3.select(window).on("resize", resize).on("keydown", keydown);
+	  
+  force.on("tick", function() {
+  	
+    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    text.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  
+    link.attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+		
+    node.attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; });
+	});
+  
+  function resize() {
+    var width = window.innerWidth, height = window.innerHeight;
+	svg.attr("width", width).attr("height", height);
+    
+	force.size([force.size()[0]+(width-w)/zoom.scale(),force.size()[1]+(height-h)/zoom.scale()]).resume();
+    w = width;
+	h = height;
+	}
+	
+	function keydown() {
+	if (d3.event.keyCode==32) {  force.stop();}
+	else if (d3.event.keyCode>=48 && d3.event.keyCode<=90 && !d3.event.ctrlKey && !d3.event.altKey && !d3.event.metaKey)
+	{
+  switch (String.fromCharCode(d3.event.keyCode)) {
+    case "C": keyc = !keyc; break;
+    case "S": keys = !keys; break;
+	case "T": keyt = !keyt; break;
+	case "R": keyr = !keyr; break;
+    case "X": keyx = !keyx; break;
+	case "D": keyd = !keyd; break;
+	case "L": keyl = !keyl; break;
+	case "M": keym = !keym; break;
+	case "H": keyh = !keyh; break;
+	case "1": key1 = !key1; break;
+	case "2": key2 = !key2; break;
+	case "3": key3 = !key3; break;
+	case "0": key0 = !key0; break;
+  }
+  	
+  link.style("display", function(d) {
+				var flag  = vis_by_type(d.source.type)&&vis_by_type(d.target.type)&&vis_by_node_score(d.source.score)&&vis_by_node_score(d.target.score)&&vis_by_link_score(d.score);
+				linkedByIndex[d.source.index + "," + d.target.index] = flag;
+              return flag?"inline":"none";});
+  node.style("display", function(d) {
+				return (key0||hasConnections(d))&&vis_by_type(d.type)&&vis_by_node_score(d.score)?"inline":"none";});
+  text.style("display", function(d) {
+                return (key0||hasConnections(d))&&vis_by_type(d.type)&&vis_by_node_score(d.score)?"inline":"none";});
+				
+				if (highlight_node !== null)
+				{
+					if ((key0||hasConnections(highlight_node))&&vis_by_type(highlight_node.type)&&vis_by_node_score(highlight_node.score)) { 
+					if (focus_node!==null) set_focus(focus_node);
+					set_highlight(highlight_node);
+					}
+					else {exit_highlight();}
+				}
+
+}	
+}
+ 
+};
+
+function vis_by_type(type)
+{
+	switch (type) {
+	  case "circle": return keyc;
+	  case "circle": return keys;
+	  case "triangle-up": return keyt;
+	  case "diamond": return keyr;
+	  case "cross": return keyx;
+	  case "triangle-down": return keyd;
+	  default: return true;
+}
+}
+function vis_by_node_score(score)
+{
+	if (isNumber(score))
+	{
+	if (score>=0.666) return keyh;
+	else if (score>=0.333) return keym;
+	else if (score>=0) return keyl;
+	}
+	return true;
+}
+
+function vis_by_link_score(score)
+{
+	if (isNumber(score))
+	{
+	if (score>=0.666) return key3;
+	else if (score>=0.333) return key2;
+	else if (score>=0) return key1;
+}
+	return true;
+}
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}	
+plot_graph(data)
+
+</script>

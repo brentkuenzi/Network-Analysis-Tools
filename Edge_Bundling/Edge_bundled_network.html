@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.node {
+  font: 300 11px "Arial", Arial, Arial, Arial;
+  fill: #bbb;
+}
+
+.node:hover {
+  fill: #d62728;
+}
+
+.link {
+  stroke: steelblue;
+  stroke-opacity: .4;
+  fill: none;
+  pointer-events: none;
+}
+
+.node:hover,
+.node--source,
+.node--target {
+  font-weight: 700;
+}
+
+.node--source {
+  fill: black;
+}
+
+.node--target {
+  fill: black;
+}
+
+.link--source,
+.link--target {
+  stroke-opacity: 1;
+  stroke-width: 2px;
+}
+
+.link--source {
+  stroke: #d62728;
+}
+
+.link--target {
+  stroke: #d62728;
+}
+
+</style>
+<h1>Edge Bundling</h1>
+<p> This edge bundling  diagram represents the edges of this network. Nodes are forced around the perimeter of the circle. Nodes with similar edges are clustered together. For questions, please contact Brent Kuenzi (brentkuenzi@gmail.com). To save, print page as .pdf or postscript and ungroup in Illustrator/Inkscape. This diagram was adapted from Mike Bostock's examples (https://bost.ocks.org/mike/)<p>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var diameter = 960,
+    radius = diameter / 2,
+    innerRadius = radius - 120;
+
+var cluster = d3.layout.cluster()
+    .size([360, innerRadius])
+    .sort(null)
+    .value(function(d) { return d.size; });
+
+var bundle = d3.layout.bundle();
+
+var line = d3.svg.line.radial()
+    .interpolate("bundle")
+    .tension(.85)
+    .radius(function(d) { return d.y; })
+    .angle(function(d) { return d.x / 180 * Math.PI; });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+  .append("g")
+    .attr("transform", "translate(" + radius + "," + radius + ")");
+
+var link = svg.append("g").selectAll(".link"),
+    node = svg.append("g").selectAll(".node");
+jsondata = '[{"name":"1.ACTN1" ,"imports":["1.CTNNA1", "1.VCL", "1.PTK2", "1.TLN1", "1.CTNND1", "1.RHOA", "3.YES1", "1.PIK3CA", "1.BCAR1", "1.CRKL", "1.PPP1R12A", "1.WASL"]},{"name":"1.BCAR1" ,"imports":["1.CRKL", "1.PTK2", "1.RHOA", "1.VCL", "3.YES1", "1.TLN1", "2.IRS1", "1.MET", "1.PIK3CA", "1.ACTN1", "2.MTOR", "3.EGFR", "2.AKT1", "2.PTPRF", "1.WASL", "2.INSR", "1.PARD3"]},{"name":"2.IRS2" ,"imports":["2.INSR", "1.PIK3CA", "2.AKT1", "2.IRS1", "2.MAPK3", "2.MTOR", "3.KRAS", "2.PTPRF", "1.RHOA", "2.GSK3B", "3.EGFR", "2.PDPK1", "3.YES1"]},{"name":"1.RHOA" ,"imports":["2.AKT1", "1.PPP1R12A", "1.CTNND1", "1.BCAR1", "3.PAK1", "1.VCL", "1.PTK2", "1.PARD3", "2.MAPK3", "3.YES1", "2.MAPK1", "3.EGFR", "1.PIK3CA", "2.MTOR", "1.MET", "1.CTNNA1", "2.IRS1", "1.TLN1", "1.ACTN1", "2.PRKAR2A", "2.IRS2", "3.PAK4", "1.WASL", "3.MAP2K1", "3.MAP2K2", "2.RPS6KA1", "2.RPS6KA3", "2.GSK3B", "2.INSR", "3.KRAS"]},{"name":"2.MTOR" ,"imports":["2.AKT1", "2.RICTOR", "2.IRS1", "2.RPS6", "2.PDPK1", "3.EGFR", "2.PRKAA1", "2.RPS6KA1", "1.RHOA", "1.PIK3CA", "2.RPS6KA3", "2.IRS2", "1.BCAR1", "3.KRAS", "2.INSR", "2.MAPK3", "2.MAPK1", "2.GSK3B", "1.MET", "2.EIF4B", "3.MAP2K1", "1.PTK2"]},{"name":"3.EGFR" ,"imports":["3.KRAS", "1.CTNND1", "1.PIK3CA", "1.CRKL", "1.CTNNA1", "2.MTOR", "3.YES1", "2.MAPK1", "1.PTK2", "1.MET", "1.RHOA", "2.IRS1", "3.CALM1", "2.YBX1", "1.BCAR1", "3.FER", "3.MAP2K1", "3.PAK1", "2.IRS2", "1.WASL", "2.AKT1", "2.PTPRF", "3.MAP2K2", "1.VCL", "2.MAPK3", "2.RPS6", "2.RPS6KA3", "1.TLN1", "2.RICTOR"]},{"name":"1.CTNND1" ,"imports":["3.EGFR", "1.RHOA", "1.CTNNA1", "3.FER", "3.YES1", "3.PTPRM", "1.VCL", "1.MET", "1.ACTN1", "1.PIK3CA", "1.MLLT4", "2.GSK3B", "1.CRKL", "2.AKT1"]},{"name":"2.RICTOR" ,"imports":["2.MTOR", "2.AKT1", "2.PDPK1", "2.GSK3B", "2.RPS6KA1", "2.RPS6KA3", "2.RPS6", "1.PIK3CA", "2.IRS1", "3.KRAS", "2.INSR", "2.MAPK1", "2.MAPK3", "3.EGFR", "2.EIF4B"]},{"name":"3.MAP2K1" ,"imports":["2.MAPK3", "2.MAPK1", "3.KRAS", "1.PIK3CA", "3.PAK1", "3.MAP2K2", "2.MAP3K7", "3.PAK4", "3.EGFR", "1.RHOA", "2.MTOR", "2.AKT1", "3.YES1"]},{"name":"2.RPS6KA1" ,"imports":["2.MAPK1", "2.RPS6", "2.MAPK3", "2.PDPK1", "2.RPS6KA3", "2.MTOR", "2.EIF4B", "2.YBX1", "2.RICTOR", "1.PIK3CA", "2.GSK3B", "2.PRKAR2A", "3.KRAS", "1.RHOA", "2.IRS1"]},{"name":"2.AKT1" ,"imports":["1.RHOA", "2.MTOR", "2.RICTOR", "1.PIK3CA", "2.GSK3B", "2.PDPK1", "2.IRS1", "3.PAK1", "2.RPS6", "2.YBX1", "2.IRS2", "2.INSR", "3.YES1", "1.TLN1", "3.KRAS", "1.VCL", "1.BCAR1", "2.PRKAR2A", "3.EGFR", "1.WASL", "1.CRKL", "2.ACACA", "1.PPP1R12A", "3.MAP2K1", "2.MAPK3", "2.EIF4B", "1.CTNND1", "2.MAPK1", "2.PRKAA1", "3.MAP2K2"]},{"name":"2.GSK3B" ,"imports":["2.AKT1", "2.IRS1", "2.PDPK1", "2.RICTOR", "1.PIK3CA", "2.PRKAR2A", "3.KRAS", "2.RPS6KA1", "2.IRS2", "2.MTOR", "2.MAPK1", "1.PTK2", "1.CTNND1", "2.YBX1", "2.INSR", "2.ACACA", "1.RHOA", "3.YES1", "2.RPS6", "2.RPS6KA3"]},{"name":"2.IRS1" ,"imports":["2.INSR", "1.PIK3CA", "2.MTOR", "2.AKT1", "2.MAPK1", "2.IRS2", "2.GSK3B", "1.PTK2", "2.MAPK3", "3.EGFR", "1.BCAR1", "3.KRAS", "1.RHOA", "1.CRKL", "2.PTPRF", "2.PDPK1", "1.MET", "2.RICTOR", "2.RPS6", "3.FER", "3.YES1", "2.RPS6KA3", "2.RPS6KA1", "2.PRKAA1"]},{"name":"2.PDPK1" ,"imports":["2.AKT1", "2.RPS6KA3", "2.MTOR", "2.RPS6KA1", "1.PIK3CA", "2.RICTOR", "2.INSR", "2.GSK3B", "2.MAPK1", "2.MAP3K7", "3.YES1", "1.TLN1", "2.IRS1", "3.KRAS", "3.PAK1", "2.IRS2", "2.RPS6"]},{"name":"2.RPS6KA3" ,"imports":["2.MAPK1", "2.RPS6", "2.MAPK3", "2.PDPK1", "2.RPS6KA1", "2.MTOR", "2.YBX1", "2.EIF4B", "2.RICTOR", "1.PIK3CA", "2.PRKAR2A", "3.KRAS", "2.IRS1", "1.RHOA", "3.EGFR", "2.GSK3B"]},{"name":"2.MAPK3" ,"imports":["3.MAP2K1", "3.MAP2K2", "2.RPS6KA3", "2.MAPK1", "2.RPS6KA1", "1.RHOA", "2.IRS1", "1.MET", "2.IRS2", "3.KRAS", "2.MTOR", "2.INSR", "1.PIK3CA", "2.PRKAR2A", "3.EGFR", "2.AKT1", "2.RICTOR", "3.PAK1", "2.RPS6", "2.PRKAA1", "3.PAK4"]},{"name":"3.MAP2K2" ,"imports":["2.MAPK3", "2.MAPK1", "3.KRAS", "1.PIK3CA", "3.MAP2K1", "3.PAK1", "3.EGFR", "1.RHOA", "3.YES1", "2.AKT1", "3.PTPRM"]},{"name":"2.RPS6" ,"imports":["2.RPS6KA3", "2.MTOR", "2.EIF4B", "2.RPS6KA1", "2.AKT1", "2.RICTOR", "2.IRS1", "2.INSR", "2.PDPK1", "1.PIK3CA", "3.EGFR", "2.PRKAA1", "2.GSK3B", "2.MAPK3", "3.KRAS"]},{"name":"2.PRKAA1" ,"imports":["2.ACACA", "2.MTOR", "2.MAP3K7", "2.PRKAR2A", "1.PIK3CA", "2.RPS6", "2.AKT1", "2.MAPK3", "2.MAPK1", "2.IRS1"]},{"name":"1.CTNNA1" ,"imports":["1.ACTN1", "1.VCL", "1.CTNND1", "3.EGFR", "1.MLLT4", "1.RHOA", "3.FER", "1.MET", "1.PIK3CA", "1.PARD3", "1.TLN1", "2.EIF4B"]},{"name":"1.PIK3CA" ,"imports":["2.AKT1", "2.IRS1", "3.KRAS", "2.IRS2", "3.EGFR", "2.PDPK1", "2.INSR", "3.YES1", "1.PTK2", "3.MAP2K1", "1.RHOA", "3.MAP2K2", "1.MET", "2.MTOR", "1.CRKL", "1.BCAR1", "2.GSK3B", "1.VCL", "1.CTNND1", "1.ACTN1", "1.TLN1", "1.CTNNA1", "2.RPS6KA1", "2.RPS6KA3", "2.RICTOR", "2.MAPK1", "2.MAPK3", "2.PRKAA1", "2.RPS6", "3.PAK4"]},{"name":"1.TLN1" ,"imports":["1.VCL", "1.PTK2", "1.ACTN1", "1.BCAR1", "1.RHOA", "2.AKT1", "1.CRKL", "1.PIK3CA", "2.PRKAR2A", "2.PDPK1", "1.CTNNA1", "3.EGFR"]},{"name":"1.CRKL" ,"imports":["1.BCAR1", "1.PTK2", "3.EGFR", "1.VCL", "1.PIK3CA", "2.INSR", "1.MET", "2.IRS1", "1.TLN1", "1.ACTN1", "2.MAP3K7", "2.MAPK1", "2.AKT1", "1.CTNND1"]},{"name":"3.PAK1" ,"imports":["2.AKT1", "1.RHOA", "3.MAP2K1", "3.PAK4", "3.YES1", "1.PTK2", "3.MAP2K2", "2.EIF4B", "3.EGFR", "2.MAPK1", "2.PDPK1", "3.KRAS", "2.MAPK3", "1.WASL"]},{"name":"1.PTK2" ,"imports":["1.BCAR1", "1.CRKL", "1.VCL", "3.YES1", "1.TLN1", "1.WASL", "1.RHOA", "3.EGFR", "1.PIK3CA", "1.ACTN1", "2.IRS1", "3.KRAS", "3.PAK1", "3.PAK4", "2.PRKAR2A", "1.MET", "2.GSK3B", "2.INSR", "2.MTOR"]},{"name":"3.YES1" ,"imports":["1.PTK2", "3.EGFR", "1.RHOA", "1.CTNND1", "1.PIK3CA", "1.BCAR1", "3.KRAS", "1.VCL", "2.MAPK1", "2.AKT1", "1.MLLT4", "1.ACTN1", "2.PDPK1", "3.PAK4", "3.PAK1", "3.FER", "2.IRS1", "2.ACACA", "2.GSK3B", "3.FLOT1", "3.MAP2K1", "3.MAP2K2", "2.IRS2"]},{"name":"2.YBX1" ,"imports":["2.AKT1", "2.RPS6KA1", "2.RPS6KA3", "3.EGFR", "2.MAPK1", "2.GSK3B"]},{"name":"2.INSR" ,"imports":["2.IRS2", "2.IRS1", "1.PIK3CA", "2.AKT1", "1.CRKL", "2.PDPK1", "2.PTPRF", "2.MTOR", "2.MAPK3", "2.MAPK1", "1.PTK2", "3.CALM1", "2.ACACA", "2.RPS6", "2.RICTOR", "2.GSK3B", "3.KRAS", "1.BCAR1", "1.RHOA"]},{"name":"1.MLLT4" ,"imports":["1.CTNNA1", "3.KRAS", "3.YES1", "1.CTNND1", "1.VCL"]},{"name":"1.MET" ,"imports":["3.EGFR", "1.PIK3CA", "1.RHOA", "1.CRKL", "1.CTNND1", "1.BCAR1", "2.MAPK3", "2.MAPK1", "1.WASL", "3.PAK4", "1.CTNNA1", "2.IRS1", "1.PTK2", "3.KRAS", "2.MTOR", "2.ACACA"]},{"name":"2.PRKAR2A" ,"imports":["2.MAPK1", "1.RHOA", "1.TLN1", "1.PTK2", "2.GSK3B", "2.PRKAA1", "2.AKT1", "2.RPS6KA1", "2.RPS6KA3", "2.MAPK3", "3.KRAS"]},{"name":"2.PTPRF" ,"imports":["2.INSR", "2.IRS1", "2.IRS2", "3.EGFR", "1.BCAR1"]},{"name":"2.MAP3K7" ,"imports":["3.MAP2K1", "2.PRKAA1", "2.PDPK1", "1.CRKL", "2.ACACA"]},{"name":"1.WASL" ,"imports":["1.PTK2", "1.VCL", "1.MET", "1.RHOA", "3.EGFR", "2.AKT1", "1.BCAR1", "3.PAK1", "3.PAK4", "1.ACTN1"]},{"name":"3.KRAS" ,"imports":["3.EGFR", "1.PIK3CA", "3.MAP2K1", "3.MAP2K2", "1.MLLT4", "3.YES1", "2.IRS1", "1.PTK2", "2.MAPK1", "2.IRS2", "2.AKT1", "2.MTOR", "3.CALM1", "2.GSK3B", "2.MAPK3", "2.PDPK1", "1.MET", "2.RPS6KA3", "2.RPS6KA1", "3.PAK4", "3.PAK1", "2.RICTOR", "2.PRKAR2A", "2.INSR", "2.RPS6", "1.RHOA"]},{"name":"3.PAK4" ,"imports":["3.PAK1", "1.MET", "3.YES1", "1.PTK2", "3.MAP2K1", "1.RHOA", "3.KRAS", "1.WASL", "2.MAPK1", "2.MAPK3", "1.PIK3CA"]},{"name":"3.CALM1" ,"imports":["3.EGFR", "3.KRAS", "2.INSR", "3.FER"]},{"name":"3.FER" ,"imports":["1.CTNND1", "1.CTNNA1", "3.EGFR", "3.YES1", "2.IRS1", "3.CALM1"]},{"name":"1.PARD3" ,"imports":["1.RHOA", "1.CTNNA1", "1.BCAR1"]},{"name":"2.ACACA" ,"imports":["2.PRKAA1", "2.INSR", "2.AKT1", "1.MET", "2.GSK3B", "3.YES1", "2.MAP3K7"]},{"name":"3.FLOT1" ,"imports":["3.YES1"]},{"name":"1.PPP1R12A" ,"imports":["1.RHOA", "1.ACTN1", "2.AKT1", "1.VCL"]},{"name":"3.PTPRM" ,"imports":["1.CTNND1", "3.MAP2K2"]},{"name":"2.MAPK1" ,"imports":["2.RPS6KA1", "2.RPS6KA3", "3.MAP2K1", "3.MAP2K2", "2.MAPK3", "3.EGFR", "1.RHOA", "2.IRS1", "2.PRKAR2A", "3.YES1", "1.MET", "3.KRAS", "2.PDPK1", "1.CRKL", "3.PAK1", "2.MTOR", "2.GSK3B", "2.INSR", "1.PIK3CA", "2.YBX1", "2.AKT1", "2.RICTOR", "3.PAK4", "2.PRKAA1"]},{"name":"1.VCL" ,"imports":["1.CTNNA1", "1.TLN1", "1.ACTN1", "1.PTK2", "1.BCAR1", "1.RHOA", "1.CTNND1", "3.YES1", "1.CRKL", "1.WASL", "1.PIK3CA", "2.AKT1", "3.EGFR", "1.MLLT4", "1.PPP1R12A"]},{"name":"2.EIF4B" ,"imports":["2.RPS6", "2.RPS6KA1", "2.RPS6KA3", "3.PAK1", "2.MTOR", "1.CTNNA1", "2.AKT1", "2.RICTOR"]}]'
+var data = JSON.parse(jsondata);
+function bundle_edges(classes){
+
+  var nodes = cluster.nodes(packageHierarchy(classes)),
+      links = packageImports(nodes);
+
+  link = link
+      .data(bundle(links))
+    .enter().append("path")
+      .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
+      .attr("class", "link")
+      .attr("d", line);
+
+  node = node
+      .data(nodes.filter(function(n) { return !n.children; }))
+    .enter().append("text")
+      .attr("class", "node")
+      .attr("dy", ".31em")
+      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)"); })
+      .style("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+      .text(function(d) { return d.key; })
+      .on("mouseover", mouseovered)
+      .on("mouseout", mouseouted);
+};
+
+function mouseovered(d) {
+  node
+      .each(function(n) { n.target = n.source = false; });
+
+  link
+      .classed("link--target", function(l) { if (l.target === d) return l.source.source = true; })
+      .classed("link--source", function(l) { if (l.source === d) return l.target.target = true; })
+    .filter(function(l) { return l.target === d || l.source === d; })
+      .each(function() { this.parentNode.appendChild(this); });
+
+  node
+      .classed("node--target", function(n) { return n.target; })
+      .classed("node--source", function(n) { return n.source; });
+}
+
+function mouseouted(d) {
+  link
+      .classed("link--target", false)
+      .classed("link--source", false);
+
+  node
+      .classed("node--target", false)
+      .classed("node--source", false);
+}
+
+d3.select(self.frameElement).style("height", diameter + "px");
+
+// Lazily construct the package hierarchy from class names.
+function packageHierarchy(classes) {
+  var map = {};
+
+  function find(name, data) {
+    var node = map[name], i;
+    if (!node) {
+      node = map[name] = data || {name: name, children: []};
+      if (name.length) {
+        node.parent = find(name.substring(0, i = name.lastIndexOf(".")));
+        node.parent.children.push(node);
+        node.key = name.substring(i + 1);
+      }
+    }
+    return node;
+  }
+
+  classes.forEach(function(d) {
+    find(d.name, d);
+  });
+
+  return map[""];
+}
+
+// Return a list of imports for the given array of nodes.
+function packageImports(nodes) {
+  var map = {},
+      imports = [];
+
+  // Compute a map from name to node.
+  nodes.forEach(function(d) {
+    map[d.name] = d;
+  });
+
+  // For each import, construct a link from the source to target node.
+  nodes.forEach(function(d) {
+    if (d.imports) d.imports.forEach(function(i) {
+      imports.push({source: map[d.name], target: map[i]});
+    });
+  });
+
+  return imports;
+}
+bundle_edges(data);
+</script>
