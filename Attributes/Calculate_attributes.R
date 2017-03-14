@@ -5,7 +5,14 @@ library(ggplot2)
 calculate_attributes <- function(nodes,edges,centrality = "eigenvector",community="fastgreedy") {
   graph <- graph.data.frame(edges, directed = FALSE, vertices = nodes)
   if(community == "optimal"){V(graph)$comm <- membership(optimal.community(graph))} # computationally intensive
-  if(community == "fastgreedy"){V(graph)$comm <- membership(fastgreedy.community(graph))} # for larger datasets
+  if(community == "fast.greedy"){V(graph)$comm <- membership(fastgreedy.community(graph))} # for larger datasets\
+  if(community == "edge.betweenness"){V(graph)$comm <- membership(edge.betweenness.community(graph))}
+  if(community == "walk.trap"){V(graph)$comm <- membership(walktrap.community(graph))}
+  if(community == "spin.glass"){V(graph)$comm <- membership(spinglass.community(graph))}
+  if(community == "leading.eigenvector"){V(graph)$comm <- membership(leading.eigenvector.community(graph))}
+  if(community == "label.propagation"){V(graph)$comm <- membership(label.propagation.community(graph))}
+  if(community == "multilevel"){V(graph)$comm <- membership(multilevel.community(graph))}
+  
   if(centrality == "closeness"){V(graph)$closeness <- centralization.closeness(graph)$res}
   if(centrality == "betweenness"){V(graph)$betweenness <- centralization.betweenness(graph)$res}
   if(centrality == "eigenvector"){V(graph)$eigen <- centralization.evcent(graph)$vector}
