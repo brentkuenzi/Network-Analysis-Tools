@@ -22,7 +22,8 @@ def network2JSON(nodes_att_file, edge_file):
   	start = start[:-1]
   	start = start+"""], "links":  ["""
   	for i in edges:
-  			start = start + """{"source":"""+str(node_numbers[i[0]])+""","target":"""+str(node_numbers[i[1]])+""","value":1},"""
+  		print i
+  		start = start + """{"source":"""+str(node_numbers[i[0]])+""","target":"""+str(node_numbers[i[1]])+""","value":1},"""
   	start = start[:-1]
   	start = start + """]}"""
   	return start
