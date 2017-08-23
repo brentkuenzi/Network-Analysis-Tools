@@ -35,6 +35,8 @@ def labelCentrality(nodes_att_file):
 		return "Closeness Centrality"
 	if nodes[0][2] == "betweenness":
 		return "Betweenness Centrality"
+	if nodes[0][2] == "page":
+		return "Page Rank"
 
 
 
@@ -51,15 +53,7 @@ text.active {fill: red;font-weight:bold;}
 <script src="https://cdn.rawgit.com/eligrey/Blob.js/0cef2746414269b16834878a8abc52eb9d53e6bd/Blob.js""></script>
 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
 </head>
-<h1>Network Adjacency</h1>
 <aside style = "margin-top: 80px">
-<p> This adjacency matrix diagram represents the community structure of this network.
-Each colored cell represents an edge connecting two nodes within a community.
-Gray cells represent edges spanning different communities (pathway crosstalk).
-Use the dropdown menu to reorder the matrix. Communities are numbered from bottom to top. For questions, please contact Brent Kuenzi
- (brentkuenzi@gmail.com).
-This diagram was adapted from Mike Bostock's examples (https://bost.ocks.org/mike/)</p>
-
 <p>Order: <select id="order">
   <option value="name">Name</option>
   <option value="EV">""" + labelCentrality(sys.argv[1]) + """</option>
@@ -147,6 +141,7 @@ function plot_adjacency(data) {
       .attr("y", x.rangeBand() / 2)
       .attr("dy", ".32em")
       .attr("text-anchor", "end")
+      .attr("font-size", 850 * (1/nodes.length))
       .text(function(d, i) { return nodes[i].name; });
 
   var column = svg.selectAll(".column")
@@ -165,6 +160,7 @@ function plot_adjacency(data) {
       .attr("dy", ".32em")
       .attr("text-anchor", "start")
       .style("font-style","15px")
+      .attr("font-size", 850 * (1/nodes.length))
       .text(function(d, i) { return nodes[i].name; });
 
   function row(row) {

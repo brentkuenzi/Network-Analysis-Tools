@@ -82,8 +82,6 @@ top = """<!DOCTYPE html>
 }
 
 </style>
-<h1>Edge Bundling</h1>
-<p> This edge bundling  diagram represents the edges of this network. Nodes are forced around the perimeter of the circle. Nodes with similar edges are clustered together. For questions, please contact Brent Kuenzi (brentkuenzi@gmail.com). To save, print page as .pdf or postscript and ungroup in Illustrator/Inkscape. This diagram was adapted from Mike Bostock's examples (https://bost.ocks.org/mike/)<p>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
